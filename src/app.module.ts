@@ -12,12 +12,12 @@ import { AmigosModule } from './amigos/amigos.module';
 @Module({
   imports: [UsersModule,
     TypeOrmModule.forRoot({
-       type: "mysql",
-      host: "127.0.0.1",
-      port: 3306,
+      type: "mysql",
+      host: "shinkansen.proxy.rlwy.net",
+      port: 38039,
       username: "root",
-      password: "123456",
-      database: "db_crud",
+      password: "DaPwSFXTdtybrPPJjMSqFmLGvKhXAoBM",
+      database: "railway",
       autoLoadEntities: true,
       synchronize: true,
     }),

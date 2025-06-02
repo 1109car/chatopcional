@@ -22,7 +22,7 @@ import { JwtWsGuard } from './guard/jwt-ws.guard';
 
 
 
-@WebSocketGateway( 81,{
+@WebSocketGateway({
   cors: {
     origin: '*',
     
