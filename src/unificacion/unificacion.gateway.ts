@@ -22,10 +22,10 @@ import { JwtWsGuard } from './guard/jwt-ws.guard';
 
 
 
-
-@WebSocketGateway( {
+@WebSocketGateway( 81,{
   cors: {
     origin: '*',
+    
   },
   transports: ['websocket'],
 })
@@ -58,17 +58,17 @@ export class UnificacionGateway {
           }
 
       @SubscribeMessage('get_usuarios')
-     async  sendData(@ConnectedSocket() socket: Socket,@MessageBody() friedn: {friendiid:string}): Promise<void> {
+     async  sendData(@ConnectedSocket() socket: Socket,@MessageBody() friendiid:string): Promise<void> {
     try {
       const usuarios = await this.userService.todos();
      await socket.emit('usuarios',usuarios );
  
      const user1 = await this.userService.findByEmailWithPassword(socket.data.email.email);
-    const user2 = await this.userService.findByEmailWithPassword(friedn.friendiid);
+    const user2 = await this.userService.findByEmailWithPassword(friendiid);
     console.log(user1.id)
-    console.log(user2.id)
+    console.log(friendiid,"esto es el id del amigo")
       const result = await this.amigoService.findOne(user1.id, user2.id);
-     if (!result) {
+     if (result== null) {
           const amigo = new Amigo()
          amigo.usuarioiid = user1.id
          amigo.friendiid = user2.id
@@ -100,28 +100,27 @@ export class UnificacionGateway {
  }
 
   @SubscribeMessage('mensajeUser')
-  async ingres(@ConnectedSocket() socket:Socket,@MessageBody() rt:{userDos:string}):Promise<void>
+  async ingres(@ConnectedSocket() socket:Socket,@MessageBody() userDos:string):Promise<void>
   {
-    
-   console.log(rt.userDos)
+
           try {
             const usuariosEmail = await this.userService.findByEmailWithPassword(socket.data.email.email);
             console.log({...usuariosEmail}.id)
-     
+            console.log(usuariosEmail)
               // socket.emit('IdUser1', usuariosLoegado.id)
            
-              const usuarios2Email = await this.userService.findByEmailWithPassword(rt.userDos);
+              const usuarios2Email = await this.userService.findByEmailWithPassword(userDos);
+              console.log(usuarios2Email)
               console.log({...usuarios2Email}.id)
        
             // this.connectedUsers.set(socket.id, usuariosLoegado.id.toString());
             // this.userSockets.set(usuariosLoegado.id.toString(), socket.id);
             
             
-            const {...verify} = await this.roomService.findPair({...usuariosEmail}.id,{...usuarios2Email}.id)
+            const verify = await this.roomService.findPair({...usuariosEmail}.id,{...usuarios2Email}.id)
             // console.log(verify.id+ "id del room")
-            console.log(verify)
-            console.log(verify.id+ "id del room"+typeof verify.id)
-              console.log(verify.id)
+            console.log(verify,"esto da nulo")
+            
             if ( verify == null) {
               const room = new Room();
               room.userUno = {...usuariosEmail}.id;  
