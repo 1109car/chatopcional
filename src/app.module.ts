@@ -24,7 +24,7 @@ import { AmigosModule } from './amigos/amigos.module';
     retryDelay: 3000,                         // Espera 3 segundos entre intentos
     extra: {
       connectionLimit: 2,                     // Baja cantidad si usas Alwaysdata gratuito
-      keepAlive: true,
+   
     },
 
     }),
