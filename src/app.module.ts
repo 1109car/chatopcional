@@ -13,19 +13,19 @@ import { AmigosModule } from './amigos/amigos.module';
   imports: [UsersModule,
     TypeOrmModule.forRoot({
       type: "mysql",
-      host: "shinkansen.proxy.rlwy.net",
-      port: 38039,
-      username: "root",
-      password: "DaPwSFXTdtybrPPJjMSqFmLGvKhXAoBM",
-      database: "railway",
-      autoLoadEntities: true,
-      synchronize: false,
-       retryAttempts: 10,                        // Reintenta 10 veces si falla
-    retryDelay: 3000,                         // Espera 3 segundos entre intentos
-    extra: {
-      connectionLimit: 2,                     // Baja cantidad si usas Alwaysdata gratuito
+      host: "mysql-carlos.alwaysdata.net",
+      port: 3306,
+      username: "carlos",
+      password: "1109car.",
+      database: "carlos_char",
+       autoLoadEntities: true,
+    //   synchronize: false,
+    //    retryAttempts: 10,                        // Reintenta 10 veces si falla
+    // retryDelay: 3000,                         // Espera 3 segundos entre intentos
+    // extra: {
+    //   connectionLimit: 2,                     // Baja cantidad si usas Alwaysdata gratuito
    
-    },
+    // },
 
     }),
     AuthModule,
