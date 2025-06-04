@@ -19,7 +19,14 @@ import { AmigosModule } from './amigos/amigos.module';
       password: "DaPwSFXTdtybrPPJjMSqFmLGvKhXAoBM",
       database: "railway",
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
+       retryAttempts: 10,                        // Reintenta 10 veces si falla
+    retryDelay: 3000,                         // Espera 3 segundos entre intentos
+    extra: {
+      connectionLimit: 2,                     // Baja cantidad si usas Alwaysdata gratuito
+      keepAlive: true,
+    },
+
     }),
     AuthModule,
     MessagesModule,
