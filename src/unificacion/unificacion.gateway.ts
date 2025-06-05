@@ -131,7 +131,7 @@ export class UnificacionGateway {
             }else{
               const mostrarRela=  await this.messageService.ObtnerIDmessageUsuario(verify.id)
               console.log(mostrarRela)
-              this.server.emit("mostrarMensaje",mostrarRela)
+              socket.emit("mostrarMensaje",mostrarRela)
               console.log(mostrarRela)
               await socket.emit('serverRoom',verify.id)
               console.log(verify.id)
