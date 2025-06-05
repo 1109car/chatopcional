@@ -159,7 +159,9 @@ export class UnificacionGateway {
               //  mensajes.userEmail = {...usuariosEmail}.email
               mensajes.room = Number(rt.room)
               await this.messageService.create(mensajes)
-              this.server.emit("mensajeNuevo",mensajes)
+              // const socketId = this.userSockets.get(rt.room.toString());
+              // await this.server.to(socketId).emit('mensajeNuevo', mensajes);
+              socket.emit("mensajeNuevo",mensajes)
             
 
   } 
