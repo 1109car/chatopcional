@@ -47,6 +47,9 @@ export class UnificacionGateway {
 
           handleConnection(client: Socket) {
             console.log('✅ Cliente conectado:', client.id);
+            this.userSockets.set(client.id, client.id);
+            console.log(this.userSockets)
+     
           }
         
           handleDisconnect(client: Socket) {
@@ -98,7 +101,7 @@ export class UnificacionGateway {
       console.log(error.message)
     }
  }
-
+// private sal;
   @SubscribeMessage('mensajeUser')
   async ingres(@ConnectedSocket() socket:Socket,@MessageBody() userDos:string):Promise<void>
   {
@@ -135,6 +138,8 @@ export class UnificacionGateway {
               console.log(mostrarRela)
               await socket.emit('serverRoom',verify.id)
               console.log(verify.id)
+              // this.sal = verify.id;
+              socket.data.room = verify.id;
             }
           }
         catch(e){console.log("error "+ e)}
@@ -143,8 +148,9 @@ export class UnificacionGateway {
  
  
   @SubscribeMessage('mensajon')
-  async MnesajesLLeg(@ConnectedSocket() socket:Socket,@MessageBody() rt:{room:number,message:string}):Promise<void>
+  async MnesajesLLeg(@ConnectedSocket() socket:Socket,@MessageBody() rt:{room:number,message:string,select:string}):Promise<void>
   {
+
     console.log( rt.room, rt.message + "esto es el mensaje")
 
     const usuariosEmail = await this.userService.findByEmailWithPassword(socket.data.email.email);
@@ -161,8 +167,25 @@ export class UnificacionGateway {
               await this.messageService.create(mensajes)
               // const socketId = this.userSockets.get(rt.room.toString());
               // await this.server.to(socketId).emit('mensajeNuevo', mensajes);
-              socket.emit("mensajeNuevo",mensajes)
-            
-
+               const socketIds = Array.from(this.userSockets.values());
+               console.log(socketIds)
+               // this.server.emit("mensajeNuevo",mensajes)
+              //  console.log(this.sal)
+              console.log(socketIds[0])
+                console.log(socketIds[1])
+               console.log(mensajes.email)
+              console.log(socket.data.room)
+              console.log(rt.select)
+              const usuariosEmaill = await this.userService.findByEmailWithPassword(socket.data.email.email);
+              const usuariosEmai2 = await this.userService.findByEmailWithPassword(rt.select);
+              console.log(usuariosEmaill,usuariosEmai2)
+                 const verify = await this.roomService.findPair(usuariosEmaill.id,usuariosEmai2.id)
+              
+               if(verify.id === mensajes.room) {
+                 this.server.to(socketIds).emit('mensajeNuevo', mensajes);
+                 
+              }
+              else{return}
+                
   } 
 }
